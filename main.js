@@ -1,6 +1,11 @@
-// Mobile menu toggle and smooth scrolling
 document.addEventListener('DOMContentLoaded', function() {
-    
+
+    // Динамічна адреса з address.js
+    const addressEl = document.getElementById('current-address');
+    if (addressEl && typeof officeAddress !== 'undefined') {
+        addressEl.textContent = officeAddress;
+    }
+
     // Smooth scrolling for navigation links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
@@ -20,40 +25,34 @@ document.addEventListener('DOMContentLoaded', function() {
     if (contactForm) {
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            
-            // Get form data
+
             const name = this.querySelector('input[type="text"]').value;
             const phone = this.querySelector('input[type="tel"]').value;
             const service = this.querySelector('select').value;
-            
-            // Simple validation
+
             if (!name || !phone || !service) {
                 alert('Будь ласка, заповніть всі обов\'язкові поля');
                 return;
             }
-            
-            // Service names mapping
+
             const serviceNames = {
                 'consultation': 'Консультація',
                 'trial': 'Пробний масаж',
                 'back': 'Масаж спини',
                 'classic': 'Масаж класичний',
-                'therapeutic': 'Масаж лікувальний'
+                'therapeutic': 'Масаж інтенсивний'
             };
-            
+
             const serviceName = serviceNames[service] || service;
-            
-            // Create WhatsApp message
+
             let whatsappMessage = `Привіт! Хочу записатися на прийом:\n\n`;
             whatsappMessage += `Ім'я: ${name}\n`;
             whatsappMessage += `Телефон: ${phone}\n`;
             whatsappMessage += `Послуга: ${serviceName}`;
-            
-            // Open WhatsApp with pre-filled message
+
             const whatsappUrl = `https://wa.me/380979449382?text=${encodeURIComponent(whatsappMessage)}`;
             window.open(whatsappUrl, '_blank');
-            
-            // Show success message
+
             alert('Дякуємо за заявку! Ви будете перенаправлені в WhatsApp для підтвердження запису.');
             this.reset();
         });
@@ -86,8 +85,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }, observerOptions);
 
-    // Observe all cards for animation
-    document.querySelectorAll('.service-card, .contact-item').forEach(card => {
+    document.querySelectorAll('.service-card, .contact-item, .review-card').forEach(card => {
         card.style.opacity = '0';
         card.style.transform = 'translateY(20px)';
         card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
