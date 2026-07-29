@@ -498,6 +498,14 @@ body {
     color: rgba(255, 255, 255, 0.7);
 }
 
+/* Виправлення видимості опцій у випадаючому списку:
+   нативний dropdown браузера завжди малює непрозорий білий фон,
+   тому текст опцій потрібно фарбувати темним кольором окремо */
+.contact-form select option {
+    color: #1a1a1a;
+    background-color: #ffffff;
+}
+
 .contact-form button {
     background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
     border: none;
