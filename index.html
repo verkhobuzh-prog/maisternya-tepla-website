@@ -4,6 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Майстерня тепла - Масаж та Реабілітація</title>
+
+    <!-- SEO -->
+    <meta name="description" content="Майстерня тепла — масаж та реабілітація в Києві. Практик тілесної роботи Верхобуж: контакт, спостереження, діалог. Без містики, лише практика.">
+    <meta name="keywords" content="масаж Київ, реабілітація Київ, масаж спини, лікувальний масаж, Верхобуж">
+    <meta name="author" content="Верхобуж">
+    <link rel="canonical" href="https://maisternya-tepla.netlify.app/">
+
+    <!-- Open Graph (Facebook, Threads, Telegram прев'ю) -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Майстерня тепла - Масаж та Реабілітація">
+    <meta property="og:description" content="Практик тілесної роботи Верхобуж: контакт, спостереження, діалог. Без містики, лише практика.">
+    <meta property="og:image" content="https://maisternya-tepla.netlify.app/og-image.jpg">
+    <meta property="og:url" content="https://maisternya-tepla.netlify.app/">
+    <meta property="og:locale" content="uk_UA">
+    <meta property="og:site_name" content="Майстерня тепла">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Майстерня тепла - Масаж та Реабілітація">
+    <meta name="twitter:description" content="Практик тілесної роботи Верхобуж: контакт, спостереження, діалог.">
+    <meta name="twitter:image" content="https://maisternya-tepla.netlify.app/og-image.jpg">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon.png">
+
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -14,6 +39,7 @@
         </div>
         <nav class="nav">
             <a href="#home">Головна</a>
+            <a href="#reviews">Відгуки</a>
             <a href="#services">Послуги</a>
             <a href="#contact">Контакти</a>
         </nav>
@@ -32,13 +58,123 @@
         </div>
     </section>
 
+    <section id="about" class="about">
+        <div class="container">
+            <h2>Хто працює з вами</h2>
+            <p>Практик тілесної роботи — Верхобуж. Контакт, спостереження, діалог. Без містики, лише практика.</p>
+            <p>
+                <a href="https://www.threads.com/@verkhobuzh_practice" target="_blank">Threads</a> ·
+                <a href="https://t.me/BodyHealthPractice" target="_blank">Telegram</a>
+            </p>
+        </div>
+    </section>
+
+    <section id="reviews" class="reviews">
+        <div class="container">
+            <h2>Відгуки клієнтів</h2>
+
+            <!-- Форма з чекбоксами -->
+            <div class="review-form-wrapper">
+                <h3>Залишити відгук</h3>
+                <form name="quick-review-form" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="review-form">
+                    <input type="hidden" name="form-name" value="quick-review-form">
+                    <p class="hidden-field" style="display:none;">
+                        <label>Не заповнюйте це поле: <input name="bot-field"></label>
+                    </p>
+
+                    <div class="form-group">
+                        <input type="text" name="name" placeholder="Ваше ім'я" required>
+                        <input type="tel" name="phone" placeholder="Номер телефону" required>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <p><strong>Що вам сподобалося? (Оберіть один або кілька пунктів):</strong></p>
+
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="impressions[]" value="Дуже уважне ставлення до тіла">
+                            <span>Дуже уважне ставлення до тіла</span>
+                        </label>
+
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="impressions[]" value="Знаходить зони напруги, які самі не помічаєш">
+                            <span>Знаходить зони напруги, які самі не помічаєш</span>
+                        </label>
+
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="impressions[]" value="Комфортна і спокійна атмосфера">
+                            <span>Комфортна і спокійна атмосфера</span>
+                        </label>
+
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="impressions[]" value="Професійний і заземлений підхід">
+                            <span>Професійний і заземлений підхід</span>
+                        </label>
+
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="impressions[]" value="Приємні відчуття під час сеансу">
+                            <span>Приємні відчуття під час сеансу</span>
+                        </label>
+
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="impressions[]" value="Відчуття спокою після сеансу">
+                            <span>Відчуття спокою після сеансу</span>
+                        </label>
+
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="impressions[]" value="Пояснює, що і навіщо робить">
+                            <span>Пояснює, що і навіщо робить</span>
+                        </label>
+
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="impressions[]" value="Гнучкий графік і зручна комунікація">
+                            <span>Гнучкий графік і зручна комунікація</span>
+                        </label>
+
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="impressions[]" value="Рекомендую друзям та близьким">
+                            <span>Рекомендую друзям та близьким</span>
+                        </label>
+                    </div>
+
+                    <textarea name="custom_comment" placeholder="Власний коментар або доповнення (за бажанням)" rows="3"></textarea>
+
+                    <label class="consent-label">
+                        <input type="checkbox" name="consent" required>
+                        Я дозволяю опублікувати цей відгук на сайті
+                    </label>
+
+                    <button type="submit">Надіслати відгук</button>
+                </form>
+            </div>
+
+            <div class="reviews-grid">
+                <div class="review-card">
+                    <p class="review-text">«Дуже добре відчуває тіло, знаходить те, що інші не помічають.»</p>
+                    <div class="review-author">Лариса</div>
+                </div>
+                <div class="review-card">
+                    <p class="review-text">«Майстер бачить проблеми, які заховалися в м'язах дуже давно.»</p>
+                    <div class="review-author">Дмитро</div>
+                </div>
+                <div class="review-card">
+                    <p class="review-text">«Майстер відчуває фасції та зв'язки.»</p>
+                    <div class="review-author">Оксана</div>
+                </div>
+                <div class="review-card">
+                    <p class="review-text">«Майстер м'яко працює з фасціями, зв'язками, м'язами. Після роботи відчувається спокій та баланс.»</p>
+                    <div class="review-author">Дарина</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section id="services" class="services">
         <div class="container">
             <h2>Наші Послуги</h2>
             <div class="services-grid">
                 <div class="service-card">
                     <h3>Консультація</h3>
-                    <p>Детальна діагностика стану здоров'я</p>
+                    <p>Розмова про ваш запит, стан тіла та цілі перед першим сеансом</p>
                     <div class="service-price">800 грн</div>
                 </div>
                 <div class="service-card">
@@ -53,12 +189,12 @@
                 </div>
                 <div class="service-card">
                     <h3>Масаж класичний</h3>
-                    <p>Традиційні техніки масажу для загального оздоровлення</p>
+                    <p>Традиційні техніки масажу для розслаблення та балансу тіла</p>
                     <div class="service-price">900 грн</div>
                 </div>
                 <div class="service-card">
-                    <h3>Масаж лікувальний</h3>
-                    <p>Спеціалізовані техніки для лікування захворювань</p>
+                    <h3>Масаж інтенсивний</h3>
+                    <p>Поглиблена робота з ділянками підвищеної напруги</p>
                     <div class="service-price">1200 грн</div>
                 </div>
             </div>
@@ -79,10 +215,10 @@
                 </div>
                 <div class="contact-item">
                     <h4>📍 Адреса</h4>
-                    <p>м. Київ, Бульвар Міхновського Миколи 5, кабінет 531</p>
+                    <p id="current-address">Завантаження адреси...</p>
                 </div>
             </div>
-            
+
             <form class="contact-form">
                 <h3>Записатися на прийом</h3>
                 <input type="text" placeholder="Ваше ім'я" required>
@@ -93,7 +229,7 @@
                     <option value="trial">Пробний масаж</option>
                     <option value="back">Масаж спини</option>
                     <option value="classic">Масаж класичний</option>
-                    <option value="therapeutic">Масаж лікувальний</option>
+                    <option value="therapeutic">Масаж інтенсивний</option>
                 </select>
                 <button type="submit">Записатися на прийом</button>
             </form>
@@ -101,9 +237,10 @@
     </section>
 
     <footer class="footer">
-        <p>&copy; 2024 Майстерня тепла. Всі права захищені.</p>
+        <p>&copy; 2026 Майстерня тепла. Всі права захищені.</p>
     </footer>
 
+    <script src="address.js"></script>
     <script src="main.js"></script>
 </body>
 </html>
