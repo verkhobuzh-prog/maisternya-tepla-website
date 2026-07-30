@@ -1,577 +1,802 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/* ============================================
+   Ігор Козубаль — масаж і тілесні практики
+   Палітра: глибокий зелено-чорний, теплий вапняк,
+   приглушений тил (колір робочої форми).
+   ============================================ */
+
+:root {
+  --ink:        #17201E;
+  --ink-soft:   #3A4744;
+  --ink-mute:   #6B7773;
+
+  --teal:       #2C6660;
+  --teal-deep:  #1D4A45;
+  --teal-pale:  #DCE5E2;
+
+  --limestone:  #E9E8E2;
+  --paper:      #F4F3EE;
+  --stone:      #CFD1C9;
+  --sand:       #D9CDB4;
+
+  --line:       rgba(23, 32, 30, 0.14);
+  --line-soft:  rgba(23, 32, 30, 0.07);
+
+  --display: 'Literata', Georgia, serif;
+  --body:    'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  --wrap: 1120px;
+  --r: 4px;
 }
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    line-height: 1.6;
-    color: #f8fafc;
-    background: linear-gradient(135deg, #87ceeb 0%, #4a90e2 25%, #2e8b57 50%, #228b22 75%, #32cd32 100%);
-    min-height: 100vh;
+  margin: 0;
+  font-family: var(--body);
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--ink);
+  background: var(--paper);
+  -webkit-font-smoothing: antialiased;
 }
 
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
+img, svg { max-width: 100%; }
+
+.wrap {
+  width: 100%;
+  max-width: var(--wrap);
+  margin: 0 auto;
+  padding: 0 24px;
 }
 
-/* Header */
-.header {
-    background: linear-gradient(135deg, rgba(135, 206, 235, 0.95) 0%, rgba(74, 144, 226, 0.9) 50%, rgba(46, 139, 87, 0.95) 100%);
-    backdrop-filter: blur(15px);
-    box-shadow: 0 4px 20px rgba(74, 144, 226, 0.4);
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 1000;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1.5rem 2rem;
+.visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
 }
 
-.nav-brand h2 {
-    color: #ff8c00;
-    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin-bottom: 0.2rem;
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--ink);
+  color: var(--paper);
+  padding: 12px 20px;
+  z-index: 200;
+}
+.skip-link:focus { left: 0; }
+
+:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 3px;
 }
 
-.nav-subtitle {
-    color: #f0f8ff;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
-    font-size: 1rem;
-    font-weight: 600;
-    letter-spacing: 1px;
+/* ---------- Типографіка ---------- */
+
+h1, h2, h3 {
+  font-family: var(--display);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  margin: 0 0 0.6em;
+  color: var(--ink);
 }
 
-.nav {
-    display: flex;
-    gap: 2rem;
+h1 { font-size: clamp(2.4rem, 6vw, 4rem); }
+h2 { font-size: clamp(1.7rem, 3.4vw, 2.5rem); }
+h3 { font-size: 1.15rem; font-weight: 600; }
+
+p { margin: 0 0 1.1em; }
+p:last-child { margin-bottom: 0; }
+
+.eyebrow {
+  font-family: var(--body);
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin: 0 0 1rem;
 }
 
-.nav a {
-    color: #ffffff;
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-    padding: 0.5rem 1rem;
-    border-radius: 25px;
+a { color: var(--teal-deep); }
+
+/* ---------- Кнопки ---------- */
+
+.btn {
+  display: inline-block;
+  font-family: var(--body);
+  font-size: 0.98rem;
+  font-weight: 600;
+  padding: 0.85rem 1.7rem;
+  border: 1px solid transparent;
+  border-radius: var(--r);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color .18s ease, color .18s ease, border-color .18s ease;
 }
 
-.nav a:hover {
-    background: linear-gradient(135deg, #4a90e2 0%, #2e8b57 50%, #228b22 100%);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(74, 144, 226, 0.5);
+.btn-primary {
+  background: var(--teal-deep);
+  color: #FFFFFF;
+  border-color: var(--teal-deep);
+}
+.btn-primary:hover { background: var(--ink); border-color: var(--ink); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--line);
+}
+.btn-ghost:hover { border-color: var(--ink); }
+
+.btn-block { width: 100%; }
+
+/* ---------- Шапка ---------- */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(244, 243, 238, 0.92);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line-soft);
+  transition: border-color .2s ease;
+}
+.site-header.is-scrolled { border-bottom-color: var(--line); }
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding-top: 0.9rem;
+  padding-bottom: 0.9rem;
 }
 
-/* Hero Section */
+.brand { text-decoration: none; display: block; }
+.brand-name {
+  display: block;
+  font-family: var(--display);
+  font-size: 1.22rem;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.2;
+}
+.brand-role {
+  display: block;
+  font-size: 0.72rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin-top: 2px;
+}
+
+.site-nav { display: flex; gap: 1.6rem; }
+.site-nav a {
+  font-size: 0.93rem;
+  color: var(--ink-soft);
+  text-decoration: none;
+  padding: 4px 0;
+  border-bottom: 1px solid transparent;
+  transition: color .18s ease, border-color .18s ease;
+}
+.site-nav a:hover { color: var(--ink); border-bottom-color: var(--teal); }
+
+.nav-toggle {
+  display: none;
+  width: 42px; height: 42px;
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  cursor: pointer;
+  position: relative;
+}
+.nav-toggle-bar,
+.nav-toggle-bar::before,
+.nav-toggle-bar::after {
+  content: "";
+  position: absolute;
+  left: 11px;
+  width: 20px; height: 1.5px;
+  background: var(--ink);
+}
+.nav-toggle-bar { top: 20px; }
+.nav-toggle-bar::before { left: 0; top: -6px; }
+.nav-toggle-bar::after  { left: 0; top: 6px; }
+
+/* ---------- Hero ---------- */
+
 .hero {
-    padding: 150px 0 80px;
-    background: linear-gradient(135deg, rgba(30, 144, 255, 0.95) 0%, rgba(74, 144, 226, 0.9) 50%, rgba(46, 139, 87, 0.9) 100%);
-    backdrop-filter: blur(10px);
-    margin: 2rem;
-    border-radius: 20px;
-    box-shadow: 0 25px 50px rgba(74, 144, 226, 0.3);
-    text-align: center;
+  position: relative;
+  padding: clamp(4rem, 11vw, 8rem) 0 clamp(4rem, 9vw, 7rem);
+  overflow: hidden;
 }
 
-.hero h1 {
-    font-size: 3.5rem;
-    font-weight: 700;
-    margin-bottom: 2rem;
-    color: #ffffff;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+.hero-inner { position: relative; z-index: 2; max-width: 720px; }
+
+.hero h1 { margin-bottom: 1.5rem; }
+
+.hero-lead {
+  font-size: clamp(1.05rem, 2vw, 1.25rem);
+  color: var(--ink-soft);
+  max-width: 52ch;
+  margin-bottom: 2.2rem;
 }
 
-.hero p {
-    font-size: 1.3rem;
-    margin-bottom: 1.5rem;
-    color: #f0f8ff;
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-bottom: 3rem;
 }
 
-.hero-buttons {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-top: 2rem;
+.hero-credentials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line);
+  font-size: 0.86rem;
+  color: var(--ink-mute);
+}
+.hero-credentials span { position: relative; }
+
+/* Підпис бренду: схил 35° — той самий кут, що й гора */
+.slope {
+  position: absolute;
+  right: -12%;
+  bottom: -30%;
+  width: 78%;
+  height: 150%;
+  background: linear-gradient(35deg, transparent 49.6%, var(--teal-pale) 49.6%);
+  z-index: 1;
+  pointer-events: none;
 }
 
-.cta-button, .whatsapp-button, .viber-button {
-    padding: 1rem 2rem;
-    font-size: 1.1rem;
-    font-weight: 600;
-    border-radius: 50px;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    display: inline-block;
-}
+/* ---------- Про мене ---------- */
 
-.cta-button {
-    background: linear-gradient(135deg, #87ceeb 0%, #4a90e2 50%, #2e8b57 100%);
-    color: #ffffff;
-    box-shadow: 0 4px 15px rgba(74, 144, 226, 0.6);
-}
-
-.whatsapp-button {
-    background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
-    color: white;
-    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
-}
-
-.viber-button {
-    background: linear-gradient(135deg, #665cac 0%, #7b68ee 100%);
-    color: white;
-    box-shadow: 0 4px 15px rgba(102, 92, 172, 0.4);
-}
-
-.cta-button:hover, .whatsapp-button:hover, .viber-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(74, 144, 226, 0.8);
-}
-
-/* About section */
 .about {
-    padding: 60px 0;
-    text-align: center;
-    background: linear-gradient(135deg, rgba(135, 206, 235, 0.9) 0%, rgba(74, 144, 226, 0.85) 50%, rgba(46, 139, 87, 0.9) 100%);
-    backdrop-filter: blur(10px);
-    margin: 2rem;
-    border-radius: 20px;
+  padding: clamp(3.5rem, 8vw, 6rem) 0;
+  background: var(--limestone);
+  border-top: 1px solid var(--line-soft);
 }
 
-.about h2 {
-    font-size: 2rem;
-    color: #ffffff;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    margin-bottom: 1rem;
+.about-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: start;
 }
 
-.about p {
-    color: #f8fafc;
-    font-size: 1.1rem;
-    max-width: 700px;
-    margin: 0 auto 0.5rem;
+.about-text p { color: var(--ink-soft); max-width: 58ch; }
+
+.about-turn {
+  font-family: var(--display);
+  font-size: 1.4rem;
+  color: var(--ink);
+  padding: 1.2rem 0 1.2rem 1.4rem;
+  border-left: 2px solid var(--teal);
+  margin: 2rem 0;
 }
 
-.about a {
-    color: #ffffff;
-    font-weight: 700;
-    text-decoration: underline;
+.credentials {
+  margin-top: 2.4rem;
+  padding-top: 1.6rem;
+  border-top: 1px solid var(--line);
+}
+.credentials h3 { margin-bottom: 0.9rem; }
+.credentials ul { margin: 0; padding: 0; list-style: none; }
+.credentials li {
+  position: relative;
+  padding-left: 1.3rem;
+  margin-bottom: 0.55rem;
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+}
+.credentials li::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0.68em;
+  width: 7px; height: 1.5px;
+  background: var(--teal);
 }
 
-/* Reviews section */
-.reviews {
-    padding: 100px 0;
-    background: linear-gradient(135deg, rgba(74, 144, 226, 0.9) 0%, rgba(46, 139, 87, 0.85) 50%, rgba(34, 139, 34, 0.9) 100%);
-    backdrop-filter: blur(10px);
+.about-note {
+  margin-top: 2rem;
+  font-size: 0.95rem;
+  color: var(--ink-mute);
 }
 
-.reviews h2 {
-    text-align: center;
-    font-size: 2.5rem;
-    margin-bottom: 3rem;
-    color: #ffffff;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+/* Картка гори — сигнатурний елемент */
+.hill-card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  padding: 1.8rem;
+  position: sticky;
+  top: 110px;
 }
+
+.hill-label {
+  font-size: 0.74rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin-bottom: 1.2rem;
+}
+
+.hill-svg { display: block; width: 100%; height: auto; }
+.hill-base   { stroke: var(--stone); stroke-width: 1.5; }
+.hill-slope  { stroke: var(--teal-deep); stroke-width: 2.5; fill: none; }
+.hill-rise   { stroke: var(--stone); stroke-width: 1.5; stroke-dasharray: 3 4; }
+.hill-arc    { stroke: var(--ink-mute); stroke-width: 1; fill: none; }
+.hill-dot    { fill: var(--teal-deep); }
+
+.hill-stats {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 1.4rem 0 0;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--line-soft);
+}
+.hill-stats div { text-align: left; }
+.hill-stats dt {
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin-bottom: 3px;
+}
+.hill-stats dd {
+  margin: 0;
+  font-family: var(--display);
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+/* ---------- Як проходить сеанс ---------- */
+
+.process { padding: clamp(3.5rem, 8vw, 6rem) 0; }
+
+.steps {
+  list-style: none;
+  margin: 2.5rem 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2.5rem;
+}
+.steps li { position: relative; padding-top: 2.6rem; }
+.steps li::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 1px;
+  background: var(--line);
+}
+.step-num {
+  position: absolute;
+  top: -0.75rem;
+  left: 0;
+  background: var(--paper);
+  padding-right: 12px;
+  font-family: var(--display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--teal);
+  line-height: 1;
+}
+.steps h3 { margin-bottom: 0.5rem; }
+.steps p { color: var(--ink-soft); font-size: 0.96rem; }
+
+/* ---------- Послуги ---------- */
+
+.services {
+  padding: clamp(3.5rem, 8vw, 6rem) 0;
+  background: var(--limestone);
+  border-top: 1px solid var(--line-soft);
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.price-list {
+  list-style: none;
+  margin: 2.4rem 0 0;
+  padding: 0;
+  border-top: 1px solid var(--line);
+}
+
+.price-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 1.5rem 1rem 1.5rem 0;
+  border-bottom: 1px solid var(--line);
+  cursor: pointer;
+  transition: background-color .18s ease, padding-left .18s ease;
+}
+.price-row:hover,
+.price-row:focus-visible {
+  background: rgba(44, 102, 96, 0.06);
+  padding-left: 1rem;
+}
+.price-row.is-featured .price-value { color: var(--teal-deep); }
+
+.price-main { flex: 1 1 auto; min-width: 0; }
+.price-main h3 { margin-bottom: 0.3rem; }
+.price-main p {
+  font-size: 0.92rem;
+  color: var(--ink-mute);
+  max-width: 52ch;
+  margin: 0;
+}
+
+.price-meta {
+  flex: 0 0 auto;
+  text-align: right;
+  white-space: nowrap;
+}
+.price-time {
+  display: block;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin-bottom: 3px;
+}
+.price-value {
+  font-family: var(--display);
+  font-size: 1.35rem;
+  font-weight: 600;
+}
+
+.packages {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.2rem;
+  margin-top: 2.2rem;
+}
+.package {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  padding: 1.6rem;
+  cursor: pointer;
+  transition: border-color .18s ease;
+}
+.package:hover { border-color: var(--teal); }
+.package h3 { margin-bottom: 0.7rem; }
+.package-price {
+  font-family: var(--display);
+  font-size: 1.7rem;
+  font-weight: 600;
+  margin: 0 0 0.2rem;
+}
+.package-note {
+  font-size: 0.85rem;
+  color: var(--teal-deep);
+  margin: 0;
+}
+
+.services-hint {
+  margin-top: 1.6rem;
+  font-size: 0.85rem;
+  color: var(--ink-mute);
+}
+
+/* ---------- Відгуки ---------- */
+
+.reviews { padding: clamp(3.5rem, 8vw, 6rem) 0; }
 
 .reviews-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
-    max-width: 1200px;
-    margin: 2rem auto 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.6rem;
+  margin: 2.4rem 0 3.5rem;
 }
 
-.review-card {
-    background: linear-gradient(135deg, rgba(135, 206, 235, 0.9) 0%, rgba(74, 144, 226, 0.85) 50%, rgba(46, 139, 87, 0.9) 100%);
-    backdrop-filter: blur(10px);
-    padding: 2rem;
-    border-radius: 15px;
-    box-shadow: 0 15px 35px rgba(74, 144, 226, 0.3);
+.review {
+  margin: 0;
+  padding: 1.6rem 1.6rem 1.4rem;
+  background: var(--limestone);
+  border-radius: var(--r);
+  border-left: 2px solid var(--teal);
+}
+.review p {
+  font-family: var(--display);
+  font-size: 1.02rem;
+  color: var(--ink);
+  margin-bottom: 0.9rem;
+}
+.review cite {
+  font-style: normal;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
 }
 
-.review-text {
-    color: #f8fafc;
-    font-style: italic;
-    margin-bottom: 1rem;
+/* ---------- Форми ---------- */
+
+.review-form-card,
+.booking-card {
+  background: var(--limestone);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  padding: clamp(1.5rem, 4vw, 2.4rem);
+}
+.review-form-card { max-width: 640px; }
+.review-form-card h3,
+.booking-card h3 {
+  font-size: 1.3rem;
+  margin-bottom: 1.5rem;
 }
 
-.review-author {
-    color: #ffffff;
-    font-weight: 700;
-    font-size: 0.95rem;
+.field { display: block; margin-bottom: 1.1rem; }
+.field > span {
+  display: block;
+  font-size: 0.84rem;
+  font-weight: 500;
+  color: var(--ink-soft);
+  margin-bottom: 0.4rem;
 }
 
-/* Review form */
-.review-form-wrapper {
-    max-width: 600px;
-    margin: 0 auto 3rem;
-    padding: 2rem;
-    background: linear-gradient(135deg, rgba(74, 144, 226, 0.9) 0%, rgba(46, 139, 87, 0.85) 50%, rgba(34, 139, 34, 0.9) 100%);
-    backdrop-filter: blur(10px);
-    border-radius: 15px;
-    box-shadow: 0 15px 35px rgba(74, 144, 226, 0.3);
+.field-row { display: flex; gap: 1rem; flex-wrap: wrap; }
+.field-row .field { flex: 1 1 200px; }
+
+.form input[type="text"],
+.form input[type="tel"],
+.form textarea,
+.form select {
+  width: 100%;
+  font-family: var(--body);
+  font-size: 1rem;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  padding: 0.8rem 0.9rem;
+  transition: border-color .18s ease;
 }
 
-.review-form-wrapper h3 {
-    text-align: center;
-    color: #ffffff;
-    margin-bottom: 1.5rem;
-    font-size: 1.5rem;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+.form input[type="text"],
+.form input[type="tel"],
+.form textarea {
+  cursor: text;
+  caret-color: var(--teal-deep);
 }
 
-.review-form input[type="text"],
-.review-form input[type="tel"],
-.review-form textarea {
-    width: 100%;
-    padding: 1rem;
-    margin-bottom: 1rem;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 10px;
-    background: rgba(255, 255, 255, 0.1);
-    color: #ffffff;
-    font-size: 1rem;
-    font-family: inherit;
-    backdrop-filter: blur(5px);
+.form select { cursor: pointer; }
+
+.form input:focus,
+.form textarea:focus,
+.form select:focus {
+  outline: none;
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(44, 102, 96, 0.14);
 }
 
-.review-form input::placeholder,
-.review-form textarea::placeholder {
-    color: rgba(255, 255, 255, 0.7);
+.form ::placeholder { color: var(--ink-mute); opacity: 1; }
+
+/* Нативний dropdown завжди малює власний непрозорий фон,
+   тому колір опцій задаємо окремо — інакше «біле по білому» */
+.form select option {
+  color: #17201E;
+  background-color: #FFFFFF;
+}
+.form select option[value=""][disabled] { color: #8A918E; }
+
+.form textarea { resize: vertical; min-height: 90px; }
+
+.checks {
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  padding: 1.1rem 1.2rem;
+  margin: 0 0 1.2rem;
+}
+.checks legend {
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+  padding: 0 0.4rem;
 }
 
-.review-form .form-group {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
+.check, .consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  font-size: 0.93rem;
+  color: var(--ink-soft);
+  cursor: pointer;
+  margin-bottom: 0.55rem;
+  line-height: 1.45;
+}
+.check input, .consent input {
+  flex: 0 0 auto;
+  width: 17px; height: 17px;
+  margin-top: 0.18em;
+  accent-color: var(--teal-deep);
+  cursor: pointer;
 }
 
-.review-form .form-group input {
-    flex: 1;
-    min-width: 200px;
+.consent { margin: 0.4rem 0 1.4rem; font-size: 0.88rem; }
+
+.form-note {
+  margin-top: 0.9rem;
+  font-size: 0.83rem;
+  color: var(--ink-mute);
 }
 
-.checkbox-group {
-    margin-bottom: 1rem;
-    padding: 1rem;
-    background: rgba(255, 255, 255, 0.08);
-    border-radius: 10px;
+.form-status {
+  margin-top: 1rem;
+  padding: 0.8rem 1rem;
+  border-radius: var(--r);
+  font-size: 0.9rem;
+  background: var(--teal-pale);
+  color: var(--teal-deep);
+}
+.form-status[data-state="error"] {
+  background: #F6E3DC;
+  color: #7A3B25;
 }
 
-.checkbox-group p {
-    color: #ffffff;
-    margin-bottom: 0.8rem;
-}
+/* ---------- Контакти ---------- */
 
-.checkbox-item {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    color: #f0f8ff;
-    font-size: 0.95rem;
-    margin-bottom: 0.6rem;
-    cursor: pointer;
-}
-
-.checkbox-item input[type="checkbox"] {
-    flex-shrink: 0;
-    width: 18px;
-    height: 18px;
-}
-
-.consent-label {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.5rem;
-    color: #f0f8ff;
-    font-size: 0.95rem;
-    margin-bottom: 1.5rem;
-    line-height: 1.4;
-}
-
-.consent-label input[type="checkbox"] {
-    margin-top: 0.2rem;
-    flex-shrink: 0;
-}
-
-.review-form button {
-    width: 100%;
-    padding: 1rem;
-    background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
-    border: none;
-    border-radius: 10px;
-    color: white;
-    font-weight: 600;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
-}
-
-.review-form button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(37, 211, 102, 0.6);
-}
-
-.hidden-field {
-    position: absolute;
-    left: -9999px;
-}
-
-/* Services Section */
-.services {
-    padding: 100px 0;
-    background: linear-gradient(135deg, rgba(74, 144, 226, 0.9) 0%, rgba(46, 139, 87, 0.85) 50%, rgba(34, 139, 34, 0.9) 100%);
-    backdrop-filter: blur(10px);
-}
-
-.services h2 {
-    text-align: center;
-    font-size: 2.5rem;
-    margin-bottom: 3rem;
-    color: #ffffff;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-}
-
-.services-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
-    max-width: 1400px;
-    margin: 0 auto;
-}
-
-.service-card {
-    background: linear-gradient(135deg, rgba(135, 206, 235, 0.9) 0%, rgba(74, 144, 226, 0.85) 50%, rgba(46, 139, 87, 0.9) 100%);
-    backdrop-filter: blur(10px);
-    padding: 2rem;
-    border-radius: 15px;
-    text-align: center;
-    box-shadow: 0 15px 35px rgba(74, 144, 226, 0.3);
-    transition: all 0.3s ease;
-    border: 1px solid rgba(74, 144, 226, 0.3);
-}
-
-.service-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 25px 50px rgba(74, 144, 226, 0.5);
-}
-
-.service-card h3 {
-    font-size: 1.4rem;
-    margin-bottom: 1rem;
-    color: #ffffff;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
-}
-
-.service-card p {
-    color: #f3f4f6;
-    margin-bottom: 1.5rem;
-    line-height: 1.6;
-}
-
-.service-price {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: #f8fafc;
-    background: linear-gradient(135deg, #4a90e2 0%, #2e8b57 50%, #228b22 100%);
-    padding: 0.5rem 1rem;
-    border-radius: 25px;
-    display: inline-block;
-    box-shadow: 0 4px 15px rgba(74, 144, 226, 0.5);
-}
-
-/* Contact Section */
 .contact {
-    padding: 100px 0;
-    background: linear-gradient(135deg, rgba(135, 206, 235, 0.9) 0%, rgba(74, 144, 226, 0.85) 50%, rgba(46, 139, 87, 0.9) 100%);
-    backdrop-filter: blur(10px);
-    margin: 2rem;
-    border-radius: 20px;
-    box-shadow: 0 20px 40px rgba(74, 144, 226, 0.3);
+  padding: clamp(3.5rem, 8vw, 6rem) 0;
+  background: var(--limestone);
+  border-top: 1px solid var(--line-soft);
 }
 
-.contact h2 {
-    text-align: center;
-    font-size: 2.5rem;
-    margin-bottom: 3rem;
-    color: #ffffff;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+.contact-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: start;
 }
 
-.contact-info {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
-    max-width: 800px;
-    margin: 0 auto 3rem;
+.contact-list { margin: 2rem 0 0; }
+.contact-list > div {
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--line);
+}
+.contact-list dt {
+  font-size: 0.74rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin-bottom: 0.35rem;
+}
+.contact-list dd {
+  margin: 0;
+  font-size: 1.05rem;
+}
+.contact-list a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--teal); }
+.contact-list a:hover { color: var(--teal-deep); }
+.contact-links { display: flex; gap: 1.4rem; }
+
+.booking-card { background: var(--paper); }
+
+/* ---------- Безпека ---------- */
+
+.safety {
+  padding: clamp(3rem, 7vw, 5rem) 0;
+  background: var(--ink);
+  color: var(--limestone);
+}
+.safety h2 { color: var(--paper); font-size: clamp(1.4rem, 2.6vw, 1.9rem); }
+.safety h3 { color: var(--sand); font-size: 1.05rem; margin-bottom: 0.7rem; }
+.safety p { color: rgba(233, 232, 226, 0.82); font-size: 0.94rem; }
+
+.safety-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2.5rem;
+  margin-top: 2rem;
 }
 
-.contact-item {
-    text-align: center;
-    padding: 2rem;
-    background: linear-gradient(135deg, rgba(74, 144, 226, 0.9) 0%, rgba(46, 139, 87, 0.85) 50%, rgba(34, 139, 34, 0.9) 100%);
-    backdrop-filter: blur(10px);
-    border-radius: 15px;
-    box-shadow: 0 10px 25px rgba(74, 144, 226, 0.3);
-    transition: all 0.3s ease;
+.contra { margin: 0 0 1rem; padding: 0; list-style: none; }
+.contra li {
+  position: relative;
+  padding-left: 1.3rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.94rem;
+  color: rgba(233, 232, 226, 0.82);
+}
+.contra li::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0.68em;
+  width: 7px; height: 1.5px;
+  background: var(--sand);
+}
+.contra-note { font-size: 0.9rem; color: rgba(233, 232, 226, 0.6); }
+
+/* ---------- Підвал ---------- */
+
+.site-footer {
+  padding: 2.5rem 0;
+  background: var(--paper);
+  border-top: 1px solid var(--line);
+}
+.footer-brand {
+  font-family: var(--display);
+  font-size: 1rem;
+  margin-bottom: 0.8rem;
+}
+.footer-privacy {
+  font-size: 0.83rem;
+  color: var(--ink-mute);
+  max-width: 62ch;
+  margin-bottom: 0.8rem;
+}
+.footer-copy { font-size: 0.8rem; color: var(--ink-mute); margin: 0; }
+
+/* ---------- Анімація появи ---------- */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity .55s ease, transform .55s ease;
+}
+.reveal.is-visible { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+  * { animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }
 
-.contact-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 35px rgba(74, 144, 226, 0.5);
+/* ---------- Адаптив ---------- */
+
+@media (max-width: 900px) {
+  .about-grid,
+  .contact-grid { grid-template-columns: 1fr; }
+  .hill-card { position: static; max-width: 420px; }
 }
 
-.contact-item h4 {
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
-    color: #ffffff;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
-}
+@media (max-width: 720px) {
+  body { font-size: 16px; }
 
-.contact-item p {
-    color: #f8fafc;
-    font-size: 1.1rem;
-}
+  .nav-toggle { display: block; }
 
-.contact-item a {
-    color: #ffffff;
-    text-decoration: none;
-    font-weight: 700;
-    transition: all 0.3s ease;
-    padding: 0.3rem 0.8rem;
-    border-radius: 8px;
-    background: rgba(0, 0, 0, 0.2);
-}
+  .site-nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    gap: 0;
+    background: var(--paper);
+    border-bottom: 1px solid var(--line);
+    padding: 0.5rem 24px 1.2rem;
+  }
+  .site-nav.is-open { display: flex; }
+  .site-nav a {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--line-soft);
+  }
 
-.contact-item a:hover {
-    background: linear-gradient(135deg, #4a90e2 0%, #2e8b57 100%);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
-}
+  .header-inner { position: relative; }
 
-/* Contact Form */
-.contact-form {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 2rem;
-    background: linear-gradient(135deg, rgba(74, 144, 226, 0.9) 0%, rgba(46, 139, 87, 0.85) 50%, rgba(34, 139, 34, 0.9) 100%);
-    backdrop-filter: blur(10px);
-    border-radius: 15px;
-    box-shadow: 0 15px 35px rgba(74, 144, 226, 0.3);
-}
+  .slope { display: none; }
 
-.contact-form h3 {
-    text-align: center;
-    color: #ffffff;
-    margin-bottom: 2rem;
-    font-size: 1.5rem;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
-}
+  .price-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.8rem;
+  }
+  .price-meta { text-align: left; }
+  .price-row:hover { padding-left: 0; }
 
-.contact-form input,
-.contact-form select,
-.contact-form button {
-    width: 100%;
-    padding: 1rem;
-    margin-bottom: 1rem;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 10px;
-    background: rgba(255, 255, 255, 0.1);
-    color: #ffffff;
-    font-size: 1rem;
-    backdrop-filter: blur(5px);
-}
-
-.contact-form input::placeholder {
-    color: rgba(255, 255, 255, 0.7);
-}
-
-/* Виправлення видимості опцій у випадаючому списку:
-   нативний dropdown браузера завжди малює непрозорий білий фон,
-   тому текст опцій потрібно фарбувати темним кольором окремо */
-.contact-form select option {
-    color: #1a1a1a;
-    background-color: #ffffff;
-}
-
-.contact-form button {
-    background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
-    border: none;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
-}
-
-.contact-form button:hover {
-    background: linear-gradient(135deg, #128c7e 0%, #0d7377 100%);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(37, 211, 102, 0.6);
-}
-
-/* Footer */
-.footer {
-    background: linear-gradient(135deg, #87ceeb 0%, #4a90e2 50%, #2e8b57 100%);
-    color: #ffffff;
-    padding: 2rem 0;
-    text-align: center;
-    margin: 2rem;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(74, 144, 226, 0.5);
-}
-
-/* Mobile Responsive */
-@media (max-width: 768px) {
-    .header {
-        flex-direction: column;
-        padding: 1rem;
-    }
-
-    .nav {
-        margin-top: 1rem;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-
-    .hero {
-        margin: 1rem;
-        padding: 100px 1rem 60px;
-    }
-
-    .hero h1 {
-        font-size: 2.5rem;
-    }
-
-    .hero-buttons {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .services-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .contact-info {
-        grid-template-columns: 1fr;
-    }
-
-    .contact {
-        margin: 1rem;
-    }
-
-    .footer {
-        margin: 1rem;
-    }
+  .hill-stats { flex-wrap: wrap; gap: 1.2rem 2rem; }
 }
