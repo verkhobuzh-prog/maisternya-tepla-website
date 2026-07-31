@@ -314,6 +314,22 @@ a { color: var(--teal-deep); }
   background: var(--teal);
 }
 
+/* Фото сертифікатів під списком кваліфікації */
+.cert-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-top: 1.4rem;
+}
+.cert { margin: 0; }
+.cert img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+}
+
 .about-note {
   margin-top: 2rem;
   font-size: 0.95rem;
@@ -557,11 +573,17 @@ a { color: var(--teal-deep); }
   border-radius: var(--r);
   padding: clamp(1.5rem, 4vw, 2.4rem);
 }
-.review-form-card { max-width: 640px; }
+.review-form-card { max-width: 640px; margin-bottom: 1.5rem; }
 .review-form-card h3,
 .booking-card h3 {
   font-size: 1.3rem;
   margin-bottom: 1.5rem;
+}
+
+.google-review-card { border-color: var(--teal); }
+.google-review-lead {
+  color: var(--ink-soft);
+  margin-bottom: 1.4rem;
 }
 
 .field { display: block; margin-bottom: 1.1rem; }
