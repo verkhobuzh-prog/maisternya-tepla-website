@@ -40,6 +40,7 @@
   "telephone": "+380979449382",
   "email": "verkhobuzh@gmail.com",
   "url": "https://maisternya-tepla.netlify.app/",
+  "image": "https://maisternya-tepla.netlify.app/og-image.jpg",
   "address": {
     "@type": "PostalAddress",
     "addressLocality": "Київ",
@@ -146,21 +147,31 @@
         </p>
       </div>
 
-      <aside class="hill-card">
-        <p class="hill-label">Гора, якою я ходив три роки</p>
-        <svg class="hill-svg" viewBox="0 0 240 140" role="img" aria-label="Схема схилу: висота 55 метрів, нахил 35 градусів">
-          <line class="hill-base" x1="20" y1="120" x2="220" y2="120"/>
-          <path class="hill-slope" d="M20 120 L163 20"/>
-          <line class="hill-rise" x1="163" y1="20" x2="163" y2="120"/>
-          <path class="hill-arc" d="M60 120 A40 40 0 0 0 48 92"/>
-          <circle class="hill-dot" cx="163" cy="20" r="4"/>
-        </svg>
-        <dl class="hill-stats">
-          <div><dt>Висота</dt><dd>55 м</dd></div>
-          <div><dt>Нахил</dt><dd>35°</dd></div>
-          <div><dt>Щодня</dt><dd>3 роки</dd></div>
-        </dl>
-      </aside>
+      <div class="about-side">
+
+        <figure class="about-photo">
+          <img src="about-1080x1350.jpg"
+               alt="Ігор Козубаль у своєму кабінеті"
+               width="1080" height="1350" loading="lazy" decoding="async">
+        </figure>
+
+        <aside class="hill-card">
+          <h3 class="hill-label">Гора, якою я ходив три роки</h3>
+          <svg class="hill-svg" viewBox="0 0 240 140" role="img" aria-label="Схема схилу: висота 55 метрів, нахил 35 градусів">
+            <line class="hill-base" x1="20" y1="120" x2="220" y2="120"/>
+            <path class="hill-slope" d="M20 120 L163 20"/>
+            <line class="hill-rise" x1="163" y1="20" x2="163" y2="120"/>
+            <path class="hill-arc" d="M60 120 A40 40 0 0 0 48 92"/>
+            <circle class="hill-dot" cx="163" cy="20" r="4"/>
+          </svg>
+          <dl class="hill-stats">
+            <div><dt>Висота</dt><dd>55 м</dd></div>
+            <div><dt>Нахил</dt><dd>35°</dd></div>
+            <div><dt>Щодня</dt><dd>3 роки</dd></div>
+          </dl>
+        </aside>
+
+      </div>
 
     </div>
   </section>
@@ -296,7 +307,7 @@
         <form name="quick-review-form" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="form">
           <input type="hidden" name="form-name" value="quick-review-form">
           <p class="visually-hidden">
-            <label>Не заповнюйте це поле: <input name="bot-field"></label>
+            <label>Не заповнюйте це поле: <input name="bot-field" tabindex="-1" autocomplete="off"></label>
           </p>
 
           <div class="field-row">
@@ -371,14 +382,25 @@
 
       <div class="booking-card">
         <h3>Форма запису</h3>
-        <form class="form booking-form" id="bookingForm">
+        <form class="form booking-form"
+              id="bookingForm"
+              name="booking-form"
+              method="POST"
+              data-netlify="true"
+              netlify-honeypot="bot-field">
+          <input type="hidden" name="form-name" value="booking-form">
+          <p class="visually-hidden">
+            <label>Не заповнюйте це поле: <input name="bot-field" tabindex="-1" autocomplete="off"></label>
+          </p>
+
           <label class="field">
             <span>Ваше ім'я</span>
-            <input type="text" name="name" required autocomplete="name">
+            <input type="text" name="name" required autocomplete="name" minlength="2">
           </label>
           <label class="field">
             <span>Телефон</span>
-            <input type="tel" name="phone" required autocomplete="tel">
+            <input type="tel" name="phone" required autocomplete="tel"
+                   inputmode="tel" placeholder="+38 (0__) ___-__-__">
           </label>
           <label class="field">
             <span>Послуга</span>
@@ -396,8 +418,11 @@
             <input type="checkbox" name="consent" required>
             <span>Даю згоду на обробку моїх контактних даних для запису на сеанс.</span>
           </label>
-          <button type="submit" class="btn btn-primary btn-block">Надіслати в WhatsApp</button>
-          <p class="form-note">Форма відкриє WhatsApp із готовим повідомленням. Надішліть його — і я відповім.</p>
+          <button type="submit" class="btn btn-primary btn-block">Надіслати заявку</button>
+          <p class="form-note">
+            Заявка одразу прийде мені. Додатково відкриється WhatsApp
+            із готовим повідомленням — можете надіслати його, щоб ми відразу почали розмову.
+          </p>
         </form>
       </div>
 
