@@ -137,6 +137,13 @@ a { color: var(--teal-deep); }
 
 .btn-block { width: 100%; }
 
+.btn:disabled,
+.btn[aria-disabled="true"] {
+  opacity: 0.55;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
 /* ---------- Шапка ---------- */
 
 .site-header {
@@ -313,17 +320,34 @@ a { color: var(--teal-deep); }
   color: var(--ink-mute);
 }
 
+/* Права колонка блоку «Про мене» */
+.about-side {
+  position: sticky;
+  top: 100px;
+}
+
+.about-photo { margin: 0 0 1.4rem; }
+.about-photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--r);
+  border: 1px solid var(--line);
+}
+
 /* Картка гори — сигнатурний елемент */
 .hill-card {
   background: var(--paper);
   border: 1px solid var(--line);
   border-radius: var(--r);
   padding: 1.8rem;
-  position: sticky;
-  top: 110px;
 }
 
 .hill-label {
+  font-family: var(--body);
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0.13em;
   font-size: 0.74rem;
   letter-spacing: 0.13em;
   text-transform: uppercase;
@@ -760,7 +784,7 @@ a { color: var(--teal-deep); }
 @media (max-width: 900px) {
   .about-grid,
   .contact-grid { grid-template-columns: 1fr; }
-  .hill-card { position: static; max-width: 420px; }
+  .about-side { position: static; max-width: 460px; }
 }
 
 @media (max-width: 720px) {
