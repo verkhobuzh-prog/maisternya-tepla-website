@@ -1,8 +1,6 @@
 /* Ігор Козубаль — масаж і тілесні практики
    main.js */
 
-var officeAddress = 'м. Київ, бульвар Лесі Українки, 6 (м. Палац Спорту)';
-
 document.addEventListener('DOMContentLoaded', function () {
 
   var PHONE = '380979449382';
@@ -73,6 +71,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var bookingForm = document.getElementById('bookingForm');
 
   if (bookingForm) {
+
     var SERVICE_LABELS = {
       first:  'Перша зустріч (90 хв, 1200 грн)',
       back:   'Спина і шия (60 хв, 1000 грн)',
@@ -85,30 +84,88 @@ document.addEventListener('DOMContentLoaded', function () {
     bookingForm.addEventListener('submit', function (e) {
       e.preventDefault();
 
-      var name    = bookingForm.querySelector('input[name="name"]').value.trim();
-      var phone   = bookingForm.querySelector('input[name="phone"]').value.trim();
-      var service = bookingForm.querySelector('select[name="service"]').value;
-      var consent = bookingForm.querySelector('input[name="consent"]').checked;
+      var btn = bookingForm.querySelector('button[type="submit"]');
 
-      if (!name || !phone || !service) {
-        showStatus(bookingForm, 'Заповніть ім\'я, телефон і оберіть послугу.', 'error');
+      /* Захист від подвійного кліку */
+      if (btn.disabled) return;
+
+      var nameInput  = bookingForm.querySelector('[name="name"]');
+      var phoneInput = bookingForm.querySelector('[name="phone"]');
+      var select     = bookingForm.querySelector('[name="service"]');
+      var consent    = bookingForm.querySelector('[name="consent"]');
+
+      var name    = nameInput.value.trim();
+      var phone   = phoneInput.value.trim();
+      var service = select.value;
+
+      if (name.length < 2) {
+        showStatus(bookingForm, 'Напишіть, будь ласка, ваше ім\'я.', 'error');
+        nameInput.focus();
         return;
       }
-      if (!consent) {
+
+      /* У номері має бути щонайменше 9 цифр — решту символів ігноруємо */
+      var digits = phone.replace(/\D/g, '');
+      if (digits.length < 9) {
+        showStatus(bookingForm, 'Перевірте номер телефону — здається, він неповний.', 'error');
+        phoneInput.focus();
+        return;
+      }
+
+      if (!service) {
+        showStatus(bookingForm, 'Оберіть послугу зі списку.', 'error');
+        select.focus();
+        return;
+      }
+
+      if (!consent.checked) {
         showStatus(bookingForm, 'Потрібна згода на обробку контактних даних.', 'error');
         return;
       }
 
+      var serviceLabel = SERVICE_LABELS[service] || service;
+
+      /* WhatsApp відкриваємо одразу — поки браузер ще бачить клік користувача.
+         Якщо зробити це після fetch, спрацює блокувальник спливних вікон. */
       var text =
         'Доброго дня! Хочу записатися.\n\n' +
         'Ім\'я: ' + name + '\n' +
         'Телефон: ' + phone + '\n' +
-        'Послуга: ' + (SERVICE_LABELS[service] || service);
+        'Послуга: ' + serviceLabel;
 
       window.open('https://wa.me/' + PHONE + '?text=' + encodeURIComponent(text), '_blank');
 
-      showStatus(bookingForm, 'Відкрився WhatsApp із готовим повідомленням. Надішліть його — і я відповім.', 'ok');
-      bookingForm.reset();
+      btn.disabled = true;
+      var originalLabel = btn.textContent;
+      btn.textContent = 'Надсилаю…';
+
+      /* Паралельно надсилаємо заявку на пошту через Netlify Forms —
+         щоб заявка не загубилася, навіть якщо людина не натисне «відправити» у WhatsApp */
+      var payload = new URLSearchParams();
+      payload.append('form-name', 'booking-form');
+      payload.append('name', name);
+      payload.append('phone', phone);
+      payload.append('service', serviceLabel);
+      payload.append('consent', 'так');
+
+      fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: payload.toString()
+      })
+        .then(function () {
+          showStatus(bookingForm, 'Заявку прийнято. Я зв\'яжуся з вами найближчим часом.', 'ok');
+          bookingForm.reset();
+        })
+        .catch(function () {
+          showStatus(bookingForm,
+            'Заявку не вдалося надіслати автоматично. Напишіть, будь ласка, у WhatsApp або зателефонуйте: +38 (097) 944-93-82',
+            'error');
+        })
+        .then(function () {
+          btn.disabled = false;
+          btn.textContent = originalLabel;
+        });
     });
   }
 
@@ -117,6 +174,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (!box) {
       box = document.createElement('p');
       box.className = 'form-status';
+      box.setAttribute('role', 'status');
       form.appendChild(box);
     }
     box.textContent = message;
@@ -135,7 +193,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   /* ---------- Поява блоків при скролі ---------- */
   var animatable = document.querySelectorAll(
-    '.about-text, .hill-card, .steps li, .price-row, .package, .review, .safety-grid > div'
+    '.about-text, .about-photo, .hill-card, .steps li, .price-row, .package, .review, .safety-grid > div'
   );
 
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
