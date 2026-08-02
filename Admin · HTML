@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Модерація відгуків</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
+  :root {
+    --teal: #3c6e6a;
+    --teal-dark: #2a4d4a;
+    --limestone: #f4f1ea;
+    --ink: #2b2b28;
+    --line: #dcd6c8;
+    --danger: #a4453f;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    background: var(--limestone);
+    color: var(--ink);
+    padding: 24px 16px 64px;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; }
+  h1 { font-size: 1.4rem; margin-bottom: 4px; }
+  .sub { color: #6b665a; margin-top: 0; margin-bottom: 24px; font-size: 0.9rem; }
+
+  #login-card, #app { display: none; }
+  #login-card.active, #app.active { display: block; }
+
+  .card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 20px;
+  }
+  input[type="password"] {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    font-size: 1rem;
+    margin-bottom: 12px;
+  }
+  button {
+    font: inherit;
+    border: none;
+    border-radius: 6px;
+    padding: 9px 16px;
+    cursor: pointer;
+  }
+  .btn-primary { background: var(--teal); color: #fff; }
+  .btn-primary:hover { background: var(--teal-dark); }
+  .btn-danger { background: transparent; color: var(--danger); border: 1px solid var(--danger); }
+  .btn-ghost { background: transparent; color: var(--teal); border: 1px solid var(--teal); }
+  .error { color: var(--danger); font-size: 0.9rem; min-height: 1.2em; margin-top: -4px; }
+
+  .tabs { display: flex; gap: 8px; margin: 20px 0 16px; }
+  .tab {
+    padding: 6px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: #fff;
+    cursor: pointer;
+    font-size: 0.85rem;
+  }
+  .tab.active { background: var(--teal); color: #fff; border-color: var(--teal); }
+
+  .review-card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 16px 18px;
+    margin-bottom: 12px;
+  }
+  .review-name { font-weight: 600; margin: 0 0 4px; }
+  .review-date { font-size: 0.78rem; color: #918c7d; margin: 0 0 10px; }
+  .review-comment { margin: 0 0 10px; line-height: 1.45; }
+  .review-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+  .tag {
+    font-size: 0.75rem;
+    background: var(--limestone);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 3px 9px;
+  }
+  .status-badge {
+    display: inline-block;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    padding: 2px 8px;
+    border-radius: 999px;
+    margin-bottom: 8px;
+  }
+  .status-pending { background: #f0e3b8; color: #6b5a1a; }
+  .status-approved { background: #cfe3d8; color: var(--teal-dark); }
+  .status-rejected { background: #ecd4d2; color: var(--danger); }
+
+  .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+  .empty { color: #918c7d; padding: 24px 0; text-align: center; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>Модерація відгуків</h1>
+  <p class="sub">Майстерня тепла — внутрішня сторінка, не індексується</p>
+
+  <div id="login-card" class="card active">
+    <label for="pw">Пароль</label>
+    <input type="password" id="pw" placeholder="Введіть пароль">
+    <p class="error" id="login-error"></p>
+    <button class="btn-primary" id="loginBtn">Увійти</button>
+  </div>
+
+  <div id="app">
+    <div class="tabs">
+      <button class="tab active" data-status="pending">Нові</button>
+      <button class="tab" data-status="approved">Опубліковані</button>
+      <button class="tab" data-status="rejected">Відхилені</button>
+    </div>
+    <div id="list"></div>
+  </div>
+
+</div>
+
+<script>
+  const state = { password: "", reviews: [], activeTab: "pending" };
+
+  const loginCard = document.getElementById("login-card");
+  const app = document.getElementById("app");
+  const pwInput = document.getElementById("pw");
+  const loginBtn = document.getElementById("loginBtn");
+  const loginError = document.getElementById("login-error");
+  const listEl = document.getElementById("list");
+  const tabs = document.querySelectorAll(".tab");
+
+  function fmtDate(iso) {
+    try {
+      return new Date(iso).toLocaleString("uk-UA", {
+        day: "2-digit", month: "2-digit", year: "numeric",
+        hour: "2-digit", minute: "2-digit"
+      });
+    } catch { return iso; }
+  }
+
+  async function loadReviews() {
+    listEl.innerHTML = '<p class="empty">Завантаження…</p>';
+    try {
+      const res = await fetch("/api/reviews-admin?password=" + encodeURIComponent(state.password));
+      if (res.status === 401) {
+        sessionStorage.removeItem("reviewsAdminPassword");
+        loginCard.classList.add("active");
+        app.classList.remove("active");
+        loginError.textContent = "Пароль більше не діє, увійдіть знову.";
+        return;
+      }
+      state.reviews = await res.json();
+      render();
+    } catch (err) {
+      listEl.innerHTML = '<p class="empty">Помилка завантаження. Спробуйте оновити сторінку.</p>';
+    }
+  }
+
+  function render() {
+    const filtered = state.reviews.filter((r) => r.status === state.activeTab);
+    if (!filtered.length) {
+      listEl.innerHTML = '<p class="empty">Тут поки що порожньо</p>';
+      return;
+    }
+    listEl.innerHTML = "";
+    filtered.forEach((r) => {
+      const card = document.createElement("div");
+      card.className = "review-card";
+
+      const badgeClass = "status-" + r.status;
+      const badgeText = r.status === "pending" ? "Новий" : r.status === "approved" ? "Опубліковано" : "Відхилено";
+
+      card.innerHTML = `
+        <span class="status-badge ${badgeClass}">${badgeText}</span>
+        <p class="review-name">${escapeHtml(r.name)}</p>
+        <p class="review-date">${fmtDate(r.createdAt)}</p>
+        ${r.comment ? `<p class="review-comment">${escapeHtml(r.comment)}</p>` : ""}
+        ${r.impressions && r.impressions.length ? `<div class="review-tags">${r.impressions.map(t => `<span class="tag">${escapeHtml(t)}</span>`).join("")}</div>` : ""}
+        <div class="actions"></div>
+      `;
+
+      const actions = card.querySelector(".actions");
+
+      if (r.status !== "approved") {
+        actions.appendChild(makeBtn("Опублікувати", "btn-primary", () => setStatus(r.id, "approved")));
+      }
+      if (r.status !== "rejected") {
+        actions.appendChild(makeBtn("Відхилити", "btn-ghost", () => setStatus(r.id, "rejected")));
+      }
+      actions.appendChild(makeBtn("Видалити назавжди", "btn-danger", () => deleteReview(r.id)));
+
+      listEl.appendChild(card);
+    });
+  }
+
+  function makeBtn(label, cls, onClick) {
+    const b = document.createElement("button");
+    b.textContent = label;
+    b.className = cls;
+    b.addEventListener("click", onClick);
+    return b;
+  }
+
+  function escapeHtml(str) {
+    const div = document.createElement("div");
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  async function setStatus(id, status) {
+    await fetch("/api/reviews-admin?password=" + encodeURIComponent(state.password), {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ id, status })
+    });
+    loadReviews();
+  }
+
+  async function deleteReview(id) {
+    if (!confirm("Видалити цей відгук назавжди?")) return;
+    await fetch("/api/reviews-admin?password=" + encodeURIComponent(state.password), {
+      method: "DELETE",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ id })
+    });
+    loadReviews();
+  }
+
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      tabs.forEach((t) => t.classList.remove("active"));
+      tab.classList.add("active");
+      state.activeTab = tab.dataset.status;
+      render();
+    });
+  });
+
+  async function tryLogin(password) {
+    state.password = password;
+    const res = await fetch("/api/reviews-admin?password=" + encodeURIComponent(password));
+    if (res.status === 401) {
+      loginError.textContent = "Невірний пароль";
+      return;
+    }
+    state.reviews = await res.json();
+    sessionStorage.setItem("reviewsAdminPassword", password);
+    loginCard.classList.remove("active");
+    app.classList.add("active");
+    render();
+  }
+
+  loginBtn.addEventListener("click", () => tryLogin(pwInput.value));
+  pwInput.addEventListener("keydown", (e) => { if (e.key === "Enter") tryLogin(pwInput.value); });
+
+  const saved = sessionStorage.getItem("reviewsAdminPassword");
+  if (saved) tryLogin(saved);
+</script>
+</body>
+</html>
