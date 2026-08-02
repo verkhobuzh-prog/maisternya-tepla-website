@@ -8,6 +8,41 @@
 
 import { getStore } from "@netlify/blobs";
 
+// Netlify не завжди надсилає групу чекбоксів під одним і тим самим ключем —
+// залежно від того, як саме форма була відправлена (звичайний сабміт,
+// AJAX, мобільний браузер тощо), ключ може бути "impressions[]",
+// "impressions", а значення — масивом або рядком через кому.
+// Ця функція перебирає усі відомі варіанти й повертає завжди масив рядків.
+function extractImpressions(data) {
+  const candidates = [
+    data["impressions[]"],
+    data["impressions"],
+    data["Impressions"],
+    data["impressions[]".toLowerCase()],
+  ];
+
+  for (const value of candidates) {
+    if (value === undefined || value === null) continue;
+
+    if (Array.isArray(value)) {
+      const cleaned = value.map((v) => String(v).trim()).filter(Boolean);
+      if (cleaned.length) return cleaned;
+      continue;
+    }
+
+    if (typeof value === "string" && value.trim()) {
+      // Іноді значення приходить одним рядком, розділеним комами
+      const parts = value
+        .split(",")
+        .map((v) => v.trim())
+        .filter(Boolean);
+      if (parts.length) return parts;
+    }
+  }
+
+  return [];
+}
+
 export default async (req) => {
   if (req.method !== "POST") {
     return new Response("Method not allowed", { status: 405 });
@@ -27,13 +62,7 @@ export default async (req) => {
 
   const data = payload.data || {};
   const id = String(payload.id || crypto.randomUUID());
-
-  const rawImpressions = data["impressions[]"];
-  const impressions = Array.isArray(rawImpressions)
-    ? rawImpressions
-    : rawImpressions
-      ? [rawImpressions]
-      : [];
+  const impressions = extractImpressions(data);
 
   const review = {
     id,
